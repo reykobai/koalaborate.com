@@ -1,0 +1,79 @@
+﻿@model themebitch.Models.Information
+
+@{
+    ViewBag.Title = "Index";
+}
+@if (TempData["success"] != null)
+{
+    <center>
+        <p id="success" style=" text-align: center;
+            font-family: Ruda,sans-serif;
+            font-weight: bold;
+            color: green;
+            margin-top: 15px;
+            margin-bottom: 15px;">
+            You can now sign in!
+        </p>
+    </center>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    {
+
+
+        <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-4 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="panel-title">Sign In</div>
+
+                </div>
+
+                <div style="padding-top:30px" class="panel-body">
+
+                    <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+
+                    <form id="loginform" class="form-horizontal" role="form">
+
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <i class=""></i>
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input id="login-username" type="text" class="form-control" name="usernames" placeholder="Username" required>
+                        </div>
+
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input type="password" class="form-control" name="pword" placeholder="Password" required />
+                        </div>
+
+                      
+
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <button id="btn-login" type="submit" class="btn btn-primary">Login  </button>
+                        </div>
+
+
+
+
+
+
+                        <div class="form-group">
+                            <div class="col-md-12 control">
+                                <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%">
+                                    Don't have an account!
+                                    @Html.ActionLink("Sign Up now!", "SignUp", "Login")
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+
+
+                </div>
+            </div>
+        </div>
+    }
+}

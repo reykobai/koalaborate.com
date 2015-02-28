@@ -1,0 +1,91 @@
+﻿@model IEnumerable<themebitch.Models.Project>
+
+@using System.Configuration
+@using System.Data.SqlClient
+@using themebitch.Models;
+
+<table class="table table-hover">
+    <thead>
+    <th>ID</th>
+    <th>Title</th>
+    <th>DueDate</th>
+    <th>Status</th>
+    <th>Status</th>
+    </thead>
+    @{
+
+        ViewBag.Title = "Index";
+
+        string userid = Session["id"].ToString();
+        string connString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
+        string iQuery = "SELECT * FROM Project WHERE InformationID = @userid";
+
+        using (SqlConnection conn = new SqlConnection(connString))
+        {
+            using (SqlCommand comm = new SqlCommand(iQuery, conn))
+            {
+                comm.Parameters.AddWithValue("userid", userid);
+                try
+                {
+                    conn.Open();
+
+                    using (SqlDataReader rdr = comm.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            int ProjectID = Convert.ToInt32(rdr["ProjectID"]);
+                            string ProjectTitle = rdr["ProjectTitle"].ToString();
+                            DateTime DueDate = Convert.ToDateTime(rdr["DueDate"]);
+                            string ProjectStatus = rdr["ProjectStatus"].ToString();
+                            DateTime DateAdded = Convert.ToDateTime(rdr["DateAdded"]);
+                            int InformationID = Convert.ToInt32(rdr["InformationID"]);
+                            string FileUploaded = rdr["FileUploaded"].ToString();
+
+                            <tr>
+                                <td>@ProjectID</td>
+                                <td>@ProjectTitle</td>
+                                <td>@DueDate</td>
+                                <td>@ProjectStatus</td>
+                                <td>@Html.ActionLink("Open", "DisplayProjet", "Project", new { id = @ProjectID}, null)</td>
+                            </tr>
+
+
+
+
+                        }
+
+
+
+
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+    }
+
+</table>
+
+@*@{
+    
+    foreach(var item in Model)
+    {
+       @item.ProjectID @item.ProjectTitle
+    }
+}*@
+
+
+
+
+
+
+
