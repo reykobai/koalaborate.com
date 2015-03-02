@@ -4,10 +4,74 @@
 @using themebitch.Models;
 
 @{
-ViewBag.Title = Page.Title;
+   int proj = Model.project.ProjectID;
+    ViewBag.Title = "Index";
 }
 
-foreach (var item in Models)
-{
-	@Model.ProjectID @Model.ProjectTitle
-}
+
+<h4>&nbsp; Project Name: <b>@Model.project.ProjectTitle</b> </h4>
+<h4>&nbsp; Status: <b>@Model.project.ProjectStatus</b></h4>
+<h4>&nbsp; Project Manager: <b>@Model.info.FirstName @Model.info.LastName</b></h4>
+<br />
+&nbsp;<button class="btn btn-default" type="submit">@Html.ActionLink("Add Task", "Index", "Task", new { id = @Model.project.ProjectID }, null)</button>
+
+<fieldset class="scheduler-border">
+    <legend class="scheduler-border">Task(s)</legend>
+    <div class="control-group">
+     
+        <table class="table table-hover">
+            <tr>
+
+                <th>ID</th>
+                <th>Title</th>
+                <th>DueDate</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Assignee</th>
+                <th>Action</th>
+            </tr>
+                        @foreach (var item in Model.task)
+            {
+                <tr>
+                    <td> @item.TaskID</td>
+                    <td> @item.TaskTitle</td>
+                    <td> @item.DueDate </td>
+                    <td> @item.TaskStatus</td>
+                    <td> @item.TaskPriority </td>
+                       
+                    <td>@Html.ActionLink("Open", "DisplayTask", "Task", new { id = @item.TaskID }, null)</td>
+
+
+
+                </tr>
+            }
+        </table>
+
+    
+
+       
+</div>
+</fieldset>
+
+<fieldset class="scheduler-border">
+    <legend class="scheduler-border">Comment(s)</legend>
+    <div class="control-group" >
+
+        <div style="width:100%;padding-bottom:10px;">
+            <textarea id="limiter" name="commentBody" class="form-control" style="height: 50px;" required></textarea>
+        </div>
+        <div class="form-group" >
+
+
+            <div class="form-actions no-margin-bottom" style="text-align:center;float:right;">
+                <button class="btn btn-default" type="submit">@Html.ActionLink("Submit", "Index", "Task", new { id = @Model.project.ProjectID }, null)</button>
+            </div>
+
+        </div>
+    </div><br /><br />
+    <div class="control-group" style="border:solid red;">
+
+
+
+    </div>
+</fieldset>

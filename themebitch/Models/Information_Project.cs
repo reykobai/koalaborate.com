@@ -10,5 +10,8 @@ namespace themebitch.Models
 
         public Information info { get; set; }
         public Project project { get; set; }
+
+        public List<Task> task { get; set; }
+        public List<Information> information { get; set; }
     }
 }

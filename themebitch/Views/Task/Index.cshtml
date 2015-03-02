@@ -1,9 +1,12 @@
-﻿@{
+﻿
+@model IEnumerable<themebitch.Models.Information>
+
+@{
     ViewBag.Title = "Index";
 }
 
 
-@using (Html.BeginForm("Index", "Project", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Index", "Task", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -77,14 +80,23 @@
                             <label class="control-label col-lg-1">Assignee</label>
 
                             <div class="col-lg-4">
+                            
+
+
+              
+
                                 <select data-placeholder="Choose Assignee" class="form-control chzn-select" tabindex="2" name="taskassign">
-                                    <option value="United States">United States</option>
-                                    <option value="United Kingdom">United Kingdom</option>
+                                    @foreach (var item in Model)
+                                    {
+                                        <option value=@item.InformationID>@item.FirstName @item.LastName (@item.EmailAddress)</option>
+                                   
+                                    }
 
                                 </select>
+
                             </div>
 
-                          @Html.DropDownList("GenderId", String.Empty)
+                          
                         </div>
                     </div>
                 </div>
@@ -119,7 +131,8 @@
 
 
                     <div class="form-actions no-margin-bottom" style="text-align:center;float:left;margin-left:50px;">
-                        <input type="submit" value="Submit" class="btn btn-primary btn-lg " />
+                      @*<button class="btn btn-default" type="submit">@Html.ActionLink("Submit", "Index", "Task")</button>*@
+                        <input type="submit" value="Submit" class="btn btn-default " />
                     </div>
 
                 </div>
@@ -131,7 +144,9 @@
         </div>
 
 
-
+    <script>$("#cities option:selected").text();</script>
 
     }
+    
+   
 }

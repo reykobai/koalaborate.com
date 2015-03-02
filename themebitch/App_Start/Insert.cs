@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
+using themebitch.App_Start;
+using themebitch.Models;
 
 namespace themebitch.App_Start
 {
@@ -12,7 +16,7 @@ namespace themebitch.App_Start
         public string first { get; set; }
         public string last { get; set; }
         public string user { get; set; }
-
+        public string iPath { get; set; }
         public string taskstatus { get; set; }
 
         string connString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -128,11 +132,11 @@ namespace themebitch.App_Start
 
         //addtask
 
-        public void InsertTask(string tasktitle, string taskdesc, string taskprio, DateTime taskdue, string taskassign, int informID)
+        public void InsertTask(string tasktitle, string taskdesc, string taskprio, DateTime taskdue,  string informID, int projectID, string taskUploadFile)
         {
             taskstatus = "Open";
 
-            string iQuery = "INSERT INTO Task (TaskTitle,DueDate,TaskDescription,TaskStatus,TaskPriority,InformationID,ProjectID, taskFileUploaded) VALUES (@projtitle,@projdue,@projdesc,@projstatus,@projprio,@informID,@FileUploaded)";
+            string iQuery = "INSERT INTO Task (TaskTitle,DueDate,TaskDescription,TaskStatus,TaskPriority,InformationID,ProjectID, FileUploaded) VALUES (@tasktitle,@taskdue,@taskdesc,@taskstatus,@taskprio,@informID,@projectID,@taskUploadFile)";
 
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -144,7 +148,8 @@ namespace themebitch.App_Start
                     comm.Parameters.AddWithValue("taskstatus", taskstatus);
                     comm.Parameters.AddWithValue("taskprio", taskprio);
                     comm.Parameters.AddWithValue("informID", informID);
-                    comm.Parameters.AddWithValue("taskassign", taskassign);
+                  comm.Parameters.AddWithValue("projectID", projectID);
+                    comm.Parameters.AddWithValue("taskUploadFile", taskUploadFile);
 
 
                     try
@@ -163,6 +168,34 @@ namespace themebitch.App_Start
                     }
                 }
             }
+        }
+
+        public void UploadFile(string title, HttpPostedFileBase taskUploadFile)
+        {
+
+            //upload file
+
+
+            if (taskUploadFile != null && taskUploadFile.ContentLength > 0)
+                try
+                {
+                    string filename = Path.GetFileName(taskUploadFile.FileName);
+                    iPath = "Files/" + title + "/" + filename;
+                   // string path = Path.Combine(Server.MapPath("~/Files"), Path.GetFileName(taskUploadFile.FileName));
+                    taskUploadFile.SaveAs(iPath);
+
+
+
+                }
+                catch (Exception)
+                {
+
+                }
+            else
+            {
+
+            }
+
         }
     }
 }

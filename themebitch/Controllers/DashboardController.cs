@@ -20,56 +20,59 @@ namespace themebitch.Controllers
       {
 
         
-            Project project = new Project();
+            
            
 
 
             List<Project> projects = new List<Project>();
-            string userid = session["id"].tostring();
-            string iquery = "select * from project where informationid = @userid";
+            string userid = Session["id"].ToString();
+            string iQuery = "SELECT * FROM Project WHERE InformationID = @userid";
 
-            using (sqlconnection conn = new sqlconnection(connstring))
+            using (SqlConnection conn = new SqlConnection(connString))
             {
-               using (sqlcommand comm = new sqlcommand(iquery, conn))
-               {
-                   comm.parameters.addwithvalue("userid", userid);
-                   try
-                   {
-                       conn.open();
+                using (SqlCommand comm = new SqlCommand(iQuery, conn))
+                {
+                    comm.Parameters.AddWithValue("userid", userid);
+                    try
+                    {
+                        conn.Open();
 
-                       using (sqldatareader rdr = comm.executereader())
-                       {
-                           //diri ang i.break nu? ang project value. any ffield.. aww sige2 :) waits :)
-                           while (rdr.read())
-                           {
-                               project.projectid = convert.toint32(rdr["projectid"]);
-                               project.projecttitle = rdr["projecttitle"].tostring();
-                               project.duedate = convert.todatetime(rdr["duedate"]);
-                               project.projectstatus = rdr["projectstatus"].tostring();
-                               project.dateadded = convert.todatetime(rdr["dateadded"]);
-                               project.projectpriority = rdr["projectpriority"].tostring();
-                               project.informationid = convert.toint32(rdr["informationid"]);
-                               project.fileuploaded = rdr["fileuploaded"].tostring();
+                        using (SqlDataReader rdr = comm.ExecuteReader())
+                        {
+                            //diri ang i.break nu? ang project value. any ffield.. aww sige2 :) waits :)
+                            while (rdr.Read())
+                            {
+                                //kani may salarin
+                                Project project = new Project();
 
-
-                               projects.add(project);
-                          
-                               
-
-                           }
+                                project.ProjectID = Convert.ToInt32(rdr["ProjectID"]);
+                                project.ProjectTitle = rdr["ProjectTitle"].ToString();
+                                project.DueDate = Convert.ToDateTime(rdr["DueDate"]);
+                                project.ProjectStatus = rdr["ProjectStatus"].ToString();
+                                project.DateAdded = Convert.ToDateTime(rdr["DateAdded"]);
+                                project.ProjectPriority = rdr["ProjectPriority"].ToString();
+                                project.InformationID = Convert.ToInt32(rdr["InformationID"]);
+                                project.FileUploaded = rdr["FileUploaded"].ToString();
 
 
-                       }
-                   }
-                   catch (exception)
-                   {
-                       throw;
-                   }
-                   finally
-                   {
-                       conn.close();
-                   }
-               }
+                                projects.Add(project);
+
+
+
+                            }
+
+
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
             }
 
         

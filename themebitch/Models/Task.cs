@@ -29,6 +29,7 @@ namespace themebitch.Models
         public string TaskPriority { get; set; }
         public int InformationID { get; set; }
         public int ProjectID { get; set; }
+        public string FileUploaded { get; set; }
     
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual Information Information { get; set; }

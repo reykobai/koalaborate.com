@@ -1,0 +1,139 @@
+﻿@model themebitch.Models.Project
+@{
+    ViewBag.Title = "Index";
+}
+
+
+@using (Html.BeginForm("Index", "Project", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    {
+
+
+
+
+        <div class="inner">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">New Sub Task</h1>
+                </div>
+            </div>
+
+            <center>
+                <div class="row ">
+
+                    <div id="div-1" class="accordion-body">
+
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-1">Title</label>
+                            <div class="col-lg-4">
+                                <input type="text" name="subtasktitle" class="form-control" required />
+                            </div>
+
+                        </div>
+                        <br /><br /><br />
+                        <div class="form-group">
+                            <label for="limiter" class="control-label col-lg-1" style="float:left;">Description</label>
+
+                            <div class="col-lg-4">
+                                <textarea id="limiter" name="subtaskdesc" class="form-control" required></textarea>
+                            </div>
+
+                        </div>
+                        <br /><br /><br />
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-1">Priority</label>
+
+                            <div class="col-lg-4">
+                                <select class="form-control" name="subtaskprio">
+                                    <option>High</option>
+                                    <option>Medium</option>
+                                    <option>Low</option>
+
+
+                                </select>
+                            </div>
+
+                        </div>
+                        <br /><br /><br />
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-1">Due Date</label>
+
+                            <div class="col-lg-3">
+                                <div class="input-group input-append date" id="dp3" data-date=@System.DateTime.Now
+                                     data-date-format="mm-dd-yyyy">
+                                    <input class="form-control" type="text" name="subtaskdue" value=@System.DateTime.Now readonly="" />
+                                    <span class="input-group-addon add-on"><i class="icon-calendar"></i></span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <br /><br /><br />
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-1">Assignee</label>
+
+                            <div class="col-lg-4">
+                                @*<select data-placeholder="Choose Assignee" class="form-control chzn-select" tabindex="2" name="taskassign">*@
+                                @*@Html.DropDownListFor("cities", String.Empty, new {style = "width;20px;" })*@
+                                @*@Html.DropDownListFor(x => x.InformationID,cities,new { @class = "mycombo" })*@
+                                @Html.DropDownListFor(x => x.ProjectID, (IEnumerable<SelectListItem>)ViewBag.cities, new { @class = "form-control chzn-select" })
+
+                                @*</select>*@
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </center>
+
+            <br /><br /><br />
+
+            <div class="form-group" style="margin-top:-30px;margin-left:-15px;">
+                <label class="control-label col-lg-1">No Input</label>
+                <div class="col-lg-4">
+
+                    <div class="fileupload fileupload-new" data-provides="fileupload">
+
+                        <span class="btn btn-file btn-default">
+                            <i class="glyphicon glyphicon-open"></i>
+                            <span class="fileupload-new">Select file</span>
+                            <span class="fileupload-exists">Change</span>
+                            &nbsp;
+                            <input type="file" name="subtaskUploadFile" />
+                        </span>
+
+                        <span class="fileupload-preview"></span>
+                        <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
+                    </div>
+                </div>
+            </div>
+            <br /><br />
+
+            <br /><br />
+            <center>
+                <div class="form-group" style="margin-left:40px;">
+
+
+                    <div class="form-actions no-margin-bottom" style="text-align:center;float:left;margin-left:50px;">
+                        <input type="submit" value="Submit" class="btn btn-primary btn-lg " />
+                    </div>
+
+                </div>
+
+            </center>
+            <br /><br />
+
+
+        </div>
+
+
+
+
+    }
+}

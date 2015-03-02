@@ -23,7 +23,7 @@ namespace themebitch.Models
         public string SubtaskPriority { get; set; }
         public int InformationID { get; set; }
         public int TaskID { get; set; }
-    
+        public string FileUploaded { get; set; }
         public virtual Information Information { get; set; }
         public virtual Task Task { get; set; }
     }

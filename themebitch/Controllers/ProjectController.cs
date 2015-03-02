@@ -142,6 +142,8 @@ namespace themebitch.Controllers
             Project project = new Project();
 
             Information info = new Information();
+            List<Information> infoing = new List<Information>();
+            List<Task> tasking = new List<Task>();
 
             string iQuery = "SELECT * FROM Project WHERE ProjectID = @ProjectID";
 
@@ -192,14 +194,14 @@ namespace themebitch.Controllers
                     {
                         conns.Open();
 
-                        using (SqlDataReader rdr = comms.ExecuteReader())
+                        using (SqlDataReader rdrs = comms.ExecuteReader())
                         {
-                            while (rdr.Read())
+                            while (rdrs.Read())
                             {
                           
-                                info.FirstName = rdr["FirstName"].ToString();
-                                info.LastName = rdr["LastName"].ToString();
-                                info.InformationID = Convert.ToInt32(rdr["InformationID"]);
+                                info.FirstName = rdrs["FirstName"].ToString();
+                                info.LastName = rdrs["LastName"].ToString();
+                                info.InformationID = Convert.ToInt32(rdrs["InformationID"]);
                            
                             }
                         }
@@ -215,12 +217,119 @@ namespace themebitch.Controllers
                 }
             }
 
+            //task
+
+             
+           
+               string taskQuery = "SELECT * FROM Task WHERE ProjectID = @proj";
+               
+    using(SqlConnection taskconn = new SqlConnection(connString)) 
+    {
+        using (SqlCommand taskcomm = new SqlCommand(taskQuery, taskconn))
+        {
+            taskcomm.Parameters.AddWithValue("proj", project.ProjectID);
+            try
+            {
+                taskconn.Open();
+                using (SqlDataReader taskrdr = taskcomm.ExecuteReader())
+                {
+                    while(taskrdr.Read())
+                    {
+
+                        Task task = new Task();
+
+                        task.TaskID = Convert.ToInt32(taskrdr["TaskID"]);
+                        task.TaskTitle = taskrdr["TaskTitle"].ToString();
+                        task.DueDate = Convert.ToDateTime(taskrdr["DueDate"]);
+                        task.TaskStatus = taskrdr["TaskStatus"].ToString();
+                        task.DateAdded = Convert.ToDateTime(taskrdr["DateAdded"]);
+                        task.InformationID = Convert.ToInt32(taskrdr["InformationID"]);
+                        task.TaskPriority = taskrdr["TaskPriority"].ToString();
+
+                    
+
+                        //information---------------------------
+
+                        string InfoQuery = "SELECT * FROM Information WHERE InformationID=@id";
+
+                        using (SqlConnection InfoConn = new SqlConnection(connString))
+                        {
+                            using (SqlCommand InfoComm = new SqlCommand(InfoQuery, InfoConn))
+                            {
+                                InfoComm.Parameters.AddWithValue("id", task.InformationID);
+                                try
+                                {
+                                    InfoConn.Open();
+
+
+
+                                    using (SqlDataReader Infordr = InfoComm.ExecuteReader())
+                                    {
+
+                                        while (Infordr.Read())
+                                        {
+                                            Information information = new Information();
+
+
+                                            information.FirstName = Infordr["FirstName"].ToString();
+                                            information.LastName = Infordr["LastName"].ToString();
+                                            information.EmailAddress = Infordr["EmailAddress"].ToString();
+                                            information.InformationID = Convert.ToInt32(Infordr["InformationID"]);
+
+
+                                          
+                                         
+
+
+                                        }
+
+
+                                    }
+
+
+                                }
+                                catch (Exception)
+                                {
+                                    throw;
+                                }
+                                finally
+                                {
+                                    InfoConn.Close();
+                                }
+                            }
+                        }
+
+
+                        //end info
+
+                        tasking.Add(task);
+                          
+
+                    }
+                }
+            }
+        catch (Exception)
+            {
+            throw;
+        }
+        finally
+            {
+                taskconn.Close();
+            }
+        }
+    }
+
             Information_Project ip = new Information_Project();
             ip.info = info;
             ip.project = project;
+            ip.task = tasking;
+            ip.information = infoing;
 
             return View(ip);
         }
+
+  
+
 
 
     }

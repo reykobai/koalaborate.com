@@ -156,6 +156,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Code\SessionChecker.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\Insert.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\SubtaskController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -178,6 +180,8 @@
     <Compile Include="Models\Information.cs">
       <DependentUpon>ProjectMgmtDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Task_information.cs" />
+    <Compile Include="Models\Team_Information.cs" />
     <Compile Include="Models\Information_Project.cs" />
     <Compile Include="Models\Invite.cs">
       <DependentUpon>ProjectMgmtDataModel.tt</DependentUpon>
@@ -2226,7 +2230,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -2260,6 +2266,8 @@
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\Project\DisplayProjet.cshtml" />
     <Content Include="Views\Task\Index.cshtml" />
+    <Content Include="Views\Subtask\Index.cshtml" />
+    <Content Include="Views\Task\DisplayTask.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
